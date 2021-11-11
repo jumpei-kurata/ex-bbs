@@ -2,11 +2,10 @@ package com.example.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -37,11 +36,8 @@ public class ArticleController {
 	@Autowired
 	private CommentRepository commentRepository;
 
-	@Autowired
-	private HttpSession session;
-
 	@RequestMapping("")
-	public String index() {
+	public String index(Model model) {
 		List<Article> articleList = articleRepository.findAll();
 
 		for (Article article : articleList) {
@@ -50,7 +46,7 @@ public class ArticleController {
 			article.setCommentList(commentList);
 			System.out.println(commentList);
 		}
-		session.setAttribute("articleList", articleList);
+		model.addAttribute("articleList", articleList);
 //		for(Integer i =0; i<articleList.size(); i++) {
 //			Integer articleId = articleList.get(i).getId();
 //			List<Comment> commentList = commentRepository.findByArticleId(articleId);
@@ -65,7 +61,6 @@ public class ArticleController {
 		Article article = new Article();
 		BeanUtils.copyProperties(articleForm, article);
 		articleRepository.insert(article);
-		session.setAttribute("article", article);
 		return "redirect:/twitter";
 	}
 
@@ -74,7 +69,6 @@ public class ArticleController {
 		Comment comment = new Comment();
 		BeanUtils.copyProperties(commentForm, comment);
 		commentRepository.insert(comment);
-		session.setAttribute("comment", comment);
 		return "redirect:/twitter";
 	}
 

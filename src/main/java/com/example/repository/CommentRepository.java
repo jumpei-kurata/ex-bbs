@@ -22,7 +22,7 @@ public class CommentRepository {
 	private static final RowMapper<Comment> COMMENT_ROW_MAPPER = new BeanPropertyRowMapper<>(Comment.class);
 
 	public List<Comment> findByArticleId(int articleId) {
-		String sql = "SELECT * FROM comments WHERE article_id=:article_id";
+		String sql = "SELECT * FROM comments WHERE article_id=:article_id ORDER BY id DESC";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("article_id", articleId);
 		List<Comment> commentList = template.query(sql, param, COMMENT_ROW_MAPPER);		
 		return commentList;

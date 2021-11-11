@@ -5,7 +5,6 @@
 <title>タイトル</title>
 </head>
 <body>
-
 	<form th:action="@{/twitter/insertArticle}" method="post">
 		投稿者名：<input type="text" name="name"><br> 投稿内容：
 		<textarea rows="5" cols="30" name="content"></textarea>
@@ -15,16 +14,16 @@
 	<hr>
 
 
-	<div th:each="aList:${session.articleList}">
+	<div th:each="aList:${articleList}">
 
 		投稿者名： <span th:text="${aList.name}"></span><br> 投稿内容：<br> <br>
-		<span th:text="${aList.content}"></span><br> <br> <a
+		<pre th:text="${aList.content}"></pre><br> <br> <a
 			th:href="@{/twitter/deleteArticle?id=} + ${aList.id}">記事削除</a> <br>
 
 		<div th:each="cList:${aList.commentList}">
 			<br> コメント者名：<span th:text="${cList.name}"></span><br>
 			コメント内容：<br>
-			<div th:text="${cList.content}"></div>
+			<pre th:text="${cList.content}"></pre>
 			<br>
 		</div>
 
@@ -37,8 +36,5 @@
 		</form>
 		<hr>
 	</div>
-
-
-
 </body>
 </html>
